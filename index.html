@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Pairing Soundbox</title>
+</head>
+<body>
+  <h3>Pairing Soundbox</h3>
+  
+  <label>Device ID (QC OK)</label><br>
+  <input id="deviceId" placeholder="SBX-0001"><br><br>
+  
+  <label>Merchant ID</label><br>
+  <input id="merchantId" placeholder="M-1001"><br><br>
+  
+  <button onclick="onPair()">Pair</button>
+  
+  <p id="result"></p>
+  
+  <script>
+    const qcOKDevices = ["SBX-0001", "SBX-0002"]; 
+    const pairings = []; 
+
+    function pairSoundbox(deviceId, merchantId) {
+      // TODO: lengkapi sesuai instruksi
+      
+      if (!qcOKDevices.includes(deviceId)) {
+        return "❌ Device belum QC OK atau tidak ditemukan.";
+      }
+
+      if (!merchantId || merchantId.length < 3) {
+        return "❌ Merchant ID wajib diisi dan minimal 3 karakter.";
+      }
+
+      const alreadyPaired = pairings.find(p => p.deviceId === deviceId);
+      if (alreadyPaired) {
+        return "⚠️ Device ini sudah dipair dengan merchant lain.";
+      }
+
+      pairings.push({ deviceId, merchantId });
+
+      return `✅ Pairing berhasil: ${deviceId} → ${merchantId}`;
+    }
+
+    function onPair() {
+      const deviceId = document.getElementById("deviceId").value.trim();
+      const merchantId = document.getElementById("merchantId").value.trim();
+      const result = pairSoundbox(deviceId, merchantId);
+
+      document.getElementById("result").innerText = result;
+      console.log("Pairings Sekarang:", pairings);
+    }
+  </script>
+</body>
+</html>
