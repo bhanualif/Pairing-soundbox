@@ -1,29 +1,120 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>Pairing Soundbox</title>
+  <style>
+    /* ====== STYLE UMUM ====== */
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: #f3f4f6;
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center; /* horizontal tengah */
+      align-items: center;     /* vertikal tengah */
+    }
+
+    /* ====== CARD UTAMA ====== */
+    .container {
+      background: #fff;
+      padding: 30px 40px;
+      border-radius: 16px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      width: 360px;
+      text-align: center;
+      transition: 0.2s;
+    }
+
+    .container:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
+    }
+
+    /* ====== JUDUL ====== */
+    h3 {
+      margin-top: 0;
+      margin-bottom: 25px;
+      color: #1f2937;
+      font-size: 1.4rem;
+      letter-spacing: 0.5px;
+    }
+
+    /* ====== LABEL & INPUT ====== */
+    label {
+      display: block;
+      text-align: left;
+      margin-bottom: 6px;
+      color: #374151;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px 12px;
+      margin-bottom: 18px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      transition: 0.2s;
+    }
+
+    input:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.3);
+      outline: none;
+    }
+
+    /* ====== BUTTON ====== */
+    button {
+      width: 100%;
+      background: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 10px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      background: #1d4ed8;
+    }
+
+    /* ====== HASIL ====== */
+    #result {
+      margin-top: 20px;
+      font-weight: 500;
+      font-size: 0.95rem;
+      color: #111827;
+      white-space: pre-wrap;
+    }
+  </style>
 </head>
 <body>
-  <h3>Pairing Soundbox</h3>
-  
-  <label>Device ID (QC OK)</label><br>
-  <input id="deviceId" placeholder="SBX-0001"><br><br>
-  
-  <label>Merchant ID</label><br>
-  <input id="merchantId" placeholder="M-1001"><br><br>
-  
-  <button onclick="onPair()">Pair</button>
-  
-  <p id="result"></p>
-  
+  <div class="container">
+    <h3>Pairing Soundbox</h3>
+    
+    <label for="deviceId">Device ID (QC OK)</label>
+    <input id="deviceId" placeholder="SBX-0001">
+    
+    <label for="merchantId">Merchant ID</label>
+    <input id="merchantId" placeholder="M-1001">
+    
+    <button onclick="onPair()">Pair</button>
+    
+    <p id="result"></p>
+  </div>
+
   <script>
-    const qcOKDevices = ["SBX-0001", "SBX-0002"]; 
-    const pairings = []; 
+    // Contoh data: hanya device QC OK yang boleh dipair
+    const qcOKDevices = ["SBX-0001", "SBX-0002"];
+    const pairings = [];
 
     function pairSoundbox(deviceId, merchantId) {
-      // TODO: lengkapi sesuai instruksi
-      
       if (!qcOKDevices.includes(deviceId)) {
         return "❌ Device belum QC OK atau tidak ditemukan.";
       }
@@ -38,7 +129,6 @@
       }
 
       pairings.push({ deviceId, merchantId });
-
       return `✅ Pairing berhasil: ${deviceId} → ${merchantId}`;
     }
 
@@ -46,7 +136,6 @@
       const deviceId = document.getElementById("deviceId").value.trim();
       const merchantId = document.getElementById("merchantId").value.trim();
       const result = pairSoundbox(deviceId, merchantId);
-
       document.getElementById("result").innerText = result;
       console.log("Pairings Sekarang:", pairings);
     }
