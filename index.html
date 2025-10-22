@@ -4,8 +4,7 @@
   <meta charset="UTF-8">
   <title>Pairing Soundbox</title>
   <style>
-    /* ====== STYLE UMUM ====== */
-    body {
+        body {
       font-family: "Segoe UI", Arial, sans-serif;
       background: #f3f4f6;
       margin: 0;
@@ -110,34 +109,26 @@
   </div>
 
   <script>
-    // Contoh data: hanya device QC OK yang boleh dipair
-    const qcOKDevices = ["SBX-0001", "SBX-0002"];
-    const pairings = [];
+    // 🔗 URL ke backend API kamu
+    const API_URL = "http://localhost:3000/api";
 
-    function pairSoundbox(deviceId, merchantId) {
-      if (!qcOKDevices.includes(deviceId)) {
-        return "❌ Device belum QC OK atau tidak ditemukan.";
-      }
-
-      if (!merchantId || merchantId.length < 3) {
-        return "❌ Merchant ID wajib diisi dan minimal 3 karakter.";
-      }
-
-      const alreadyPaired = pairings.find(p => p.deviceId === deviceId);
-      if (alreadyPaired) {
-        return "⚠️ Device ini sudah dipair dengan merchant lain.";
-      }
-
-      pairings.push({ deviceId, merchantId });
-      return `✅ Pairing berhasil: ${deviceId} → ${merchantId}`;
-    }
-
-    function onPair() {
+    async function onPair() {
       const deviceId = document.getElementById("deviceId").value.trim();
       const merchantId = document.getElementById("merchantId").value.trim();
-      const result = pairSoundbox(deviceId, merchantId);
-      document.getElementById("result").innerText = result;
-      console.log("Pairings Sekarang:", pairings);
+
+      try {
+        const res = await fetch(`${API_URL}/pair`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ deviceId, merchantId })
+        });
+
+        const data = await res.json();
+        document.getElementById("result").innerText = data.message;
+      } catch (err) {
+        document.getElementById("result").innerText = "⚠️ Gagal menghubungi server API.";
+        console.error(err);
+      }
     }
   </script>
 </body>
