@@ -1,0 +1,12 @@
+{
+  "qcOKDevices": [
+    "SBX-0001",
+    "SBX-0002"
+  ],
+  "pairings": [
+    {
+      "deviceId": "SBX-0001",
+      "merchantId": "M-1234"
+    }
+  ]
+}
