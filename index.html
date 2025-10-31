@@ -1,20 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Pairing Soundbox</title>
   <style>
-        body {
+    body {
       font-family: "Segoe UI", Arial, sans-serif;
       background: #f3f4f6;
       margin: 0;
       height: 100vh;
       display: flex;
-      justify-content: center; /* horizontal tengah */
-      align-items: center;     /* vertikal tengah */
+      justify-content: center;
+      align-items: center;
     }
-
-    /* ====== CARD UTAMA ====== */
     .container {
       background: #fff;
       padding: 30px 40px;
@@ -24,13 +22,10 @@
       text-align: center;
       transition: 0.2s;
     }
-
     .container:hover {
       transform: translateY(-3px);
       box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
     }
-
-    /* ====== JUDUL ====== */
     h3 {
       margin-top: 0;
       margin-bottom: 25px;
@@ -38,8 +33,6 @@
       font-size: 1.4rem;
       letter-spacing: 0.5px;
     }
-
-    /* ====== LABEL & INPUT ====== */
     label {
       display: block;
       text-align: left;
@@ -48,7 +41,6 @@
       font-weight: 500;
       font-size: 0.9rem;
     }
-
     input {
       width: 100%;
       padding: 10px 12px;
@@ -58,14 +50,11 @@
       font-size: 0.95rem;
       transition: 0.2s;
     }
-
     input:focus {
       border-color: #2563eb;
       box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.3);
       outline: none;
     }
-
-    /* ====== BUTTON ====== */
     button {
       width: 100%;
       background: #2563eb;
@@ -78,12 +67,9 @@
       cursor: pointer;
       transition: 0.2s;
     }
-
     button:hover {
       background: #1d4ed8;
     }
-
-    /* ====== HASIL ====== */
     #result {
       margin-top: 20px;
       font-weight: 500;
@@ -96,20 +82,19 @@
 <body>
   <div class="container">
     <h3>Pairing Soundbox</h3>
-    
+
     <label for="deviceId">Device ID (QC OK)</label>
-    <input id="deviceId" placeholder="SBX-0001">
-    
+    <input id="deviceId" placeholder="SBX-0001" />
+
     <label for="merchantId">Merchant ID</label>
-    <input id="merchantId" placeholder="M-1001">
-    
+    <input id="merchantId" placeholder="M-1001" />
+
     <button onclick="onPair()">Pair</button>
-    
+
     <p id="result"></p>
   </div>
 
   <script>
-    // 🔗 URL ke backend API kamu
     const API_URL = "http://localhost:3000/api";
 
     async function onPair() {
@@ -120,13 +105,14 @@
         const res = await fetch(`${API_URL}/pair`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ deviceId, merchantId })
+          body: JSON.stringify({ deviceId, merchantId }),
         });
 
         const data = await res.json();
         document.getElementById("result").innerText = data.message;
       } catch (err) {
-        document.getElementById("result").innerText = "⚠️ Gagal menghubungi server API.";
+        document.getElementById("result").innerText =
+          "⚠️ Gagal menghubungi server API.";
         console.error(err);
       }
     }
