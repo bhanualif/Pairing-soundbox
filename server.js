@@ -1,12 +1,15 @@
 const express = require("express");
 const fs = require("fs");
 const cors = require("cors");
+const path = require("path");
+
 const app = express();
 const PORT = 3000;
 
 app.use(cors());
 app.use(express.json());
 
+// ====== FILE DATA ======
 const DATA_FILE = "./data.json";
 
 // ====== FUNGSI MEMBACA & MENYIMPAN DATA ======
@@ -58,6 +61,16 @@ app.post("/api/pair", (req, res) => {
   res.json({ message: `✅ Pairing berhasil: ${deviceId} → ${merchantId}` });
 });
 
-app.listen(PORT, () =>
-  console.log(`✅ Server API berjalan di http://localhost:${PORT}`)
-);
+// ====== ROUTE FRONTEND (index.html) ======
+const frontendPath = path.join(__dirname, "../frontend");
+app.use(express.static(frontendPath));
+
+// Route default ke index.html
+app.get("/", (req, res) => {
+  res.sendFile(path.join(frontendPath, "index.html"));
+});
+
+// ====== JALANKAN SERVER ======
+app.listen(PORT, () => {
+  console.log(`✅ Server berjalan di http://localhost:${PORT}`);
+});
