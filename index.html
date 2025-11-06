@@ -20,82 +20,45 @@
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
       width: 360px;
       text-align: center;
-      transition: 0.2s;
     }
-    .container:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
-    }
-    h3 {
-      margin-top: 0;
-      margin-bottom: 25px;
-      color: #1f2937;
-      font-size: 1.4rem;
-      letter-spacing: 0.5px;
-    }
-    label {
-      display: block;
-      text-align: left;
-      margin-bottom: 6px;
-      color: #374151;
-      font-weight: 500;
-      font-size: 0.9rem;
-    }
-    input {
+    input, button {
       width: 100%;
-      padding: 10px 12px;
-      margin-bottom: 18px;
-      border: 1px solid #d1d5db;
+      padding: 10px;
+      margin-bottom: 15px;
       border-radius: 8px;
-      font-size: 0.95rem;
-      transition: 0.2s;
-    }
-    input:focus {
-      border-color: #2563eb;
-      box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.3);
-      outline: none;
+      border: 1px solid #d1d5db;
     }
     button {
-      width: 100%;
       background: #2563eb;
       color: white;
       border: none;
-      border-radius: 8px;
-      padding: 10px;
-      font-size: 1rem;
       font-weight: 600;
       cursor: pointer;
-      transition: 0.2s;
     }
-    button:hover {
-      background: #1d4ed8;
-    }
-    #result {
-      margin-top: 20px;
-      font-weight: 500;
-      font-size: 0.95rem;
-      color: #111827;
-      white-space: pre-wrap;
-    }
+    button:hover { background: #1d4ed8; }
+    #logout { background: #dc2626; }
+    #logout:hover { background: #b91c1c; }
   </style>
 </head>
 <body>
   <div class="container">
     <h3>Pairing Soundbox</h3>
-
     <label for="deviceId">Device ID (QC OK)</label>
     <input id="deviceId" placeholder="SBX-0001" />
-
     <label for="merchantId">Merchant ID</label>
     <input id="merchantId" placeholder="M-1001" />
-
     <button onclick="onPair()">Pair</button>
-
+    <button id="logout" onclick="logout()">Logout</button>
     <p id="result"></p>
   </div>
 
   <script>
     const API_URL = "http://localhost:3000/api";
+
+    // Cek login dulu
+    if (!localStorage.getItem("user")) {
+      window.location.href = "login.html";
+    }
 
     async function onPair() {
       const deviceId = document.getElementById("deviceId").value.trim();
@@ -107,14 +70,17 @@
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ deviceId, merchantId }),
         });
-
         const data = await res.json();
         document.getElementById("result").innerText = data.message;
-      } catch (err) {
+      } catch {
         document.getElementById("result").innerText =
           "⚠️ Gagal menghubungi server API.";
-        console.error(err);
       }
+    }
+
+    function logout() {
+      localStorage.removeItem("user");
+      window.location.href = "login.html";
     }
   </script>
 </body>
