@@ -89,7 +89,7 @@ app.post("/api/pair", (req, res) => {
 });
 
 // ====== SERVE FRONTEND ======
-const frontendPath = path.join(__dirname, "../frontend");
+const frontendPath = path.join(__dirname, "./");
 app.use(express.static(frontendPath));
 
 app.get("/", (req, res) => {
